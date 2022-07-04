@@ -76,8 +76,11 @@ public enum JLinkDeviceConfigTypeEnum {
     //Maximum Encoding Capability Supported
     ABILITYENCODEPOWER("Ability.EncodePower", new TypeToken<DeviceConfig<Object>>() {
     }.getType()),
-    //systemState
-    GENERALSYSTEMSTATE("General.SystemState", new TypeToken<DeviceConfig<Object>>() {
+    //获取支持哪些人形报警提示语音
+    ABILITYVOICETIPTYPE("Ability.VoiceTipType", new TypeToken<DeviceConfig<AbilityVoiceTipTypeConfig>>() {
+    }.getType()),
+    //系统状态
+    GENERALSYSTEMSTATE("General.SystemState", new TypeToken<DeviceConfig<NetWorkDasConfig>>() {
     }.getType()),
     //ChannelTitle
     CHANNELTITLE("ChannelTitle", new TypeToken<DeviceConfig<Object>>() {
@@ -227,8 +230,8 @@ public enum JLinkDeviceConfigTypeEnum {
     //userGroup Permissions ConfigurationInformation
     GROUPS("Groups", new TypeToken<DeviceConfig<Object>>() {
     }.getType()),
-    //Coding parameter configuration
-    SIMPLIFYENCODE("Simplify.Encode", new TypeToken<DeviceConfig<Object>>() {
+    //编码参数配置
+    SIMPLIFYENCODE("Simplify.Encode", new TypeToken<DeviceConfig<SimplifyEncodeConfig>>() {
     }.getType()),
     //user Configuration
     SYSTEMEXUSERMAP("System.ExUserMap", new TypeToken<DeviceConfig<Object>>() {

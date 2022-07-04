@@ -12,7 +12,7 @@ import jlink.restful.java.sdk.module.opdev.DeviceOperateEnum;
 public class OPLogQueryDTO implements DeviceOperate {
     @Override
     public DeviceOperateEnum getOperateEnum() {
-        return DeviceOperateEnum.OPLOGQUERY;
+        return DeviceOperateEnum.OPLogQuery;
     }
 
     @SerializedName("Name")

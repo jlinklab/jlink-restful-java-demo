@@ -8,6 +8,22 @@ public enum JLinkDeviceRequestUrl {
      * capture
      */
     DEVICE_CAPTURE("v2/rtc/device/capture"),
+     /*
+      * get pic url
+     */
+    DEVICE_GETPICURL("v2/rtc/device/getPicUrl"),
+    /**
+     * get video url
+     */
+    DEVICE_GETVIDEOURL("v2/rtc/device/getVideoUrl"),
+    /**
+     * get video list
+     */
+    DEVICE_GETVIDEOLIST("v2/rtc/device/getVideoList"),
+    /**
+     * get playback video thumbnail
+     */
+    DEVICE_GETVIDEOPICURL("v2/rtc/device/getVideoPicUrl"),
     /**
      * getability
      */
@@ -67,7 +83,11 @@ public enum JLinkDeviceRequestUrl {
     /**
      * unsubscribeMessage
      */
-    UNSUBSCRIBE_MESSAGE("v2/rtc/device/unsubscribeMessage");
+    UNSUBSCRIBE_MESSAGE("v2/rtc/device/unsubscribeMessage"),
+    /**
+     * alarm list
+     */
+    CLOUD_ALARM_LIST("v2/rtc/device/getDeviceAlarmList");
 
 
     private final String requestUrl;

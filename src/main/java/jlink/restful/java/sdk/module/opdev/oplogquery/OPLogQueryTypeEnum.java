@@ -36,8 +36,4 @@ public enum OPLogQueryTypeEnum {
         return LogAll;
     }
 
-    public void setLogType(String logType) {
-        this.logType = logType;
-    }
-
 }

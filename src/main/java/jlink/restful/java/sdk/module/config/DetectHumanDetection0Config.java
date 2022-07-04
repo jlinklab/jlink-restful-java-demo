@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class DetectHumanDetection0Config extends DeviceConfig{
     @SerializedName("Detect.HumanDetection.[0]")
-    protected List<DetectHumanDetectionConfig.DetectHumanDetectionDTO> detectHumanDetectionDTOS;
+    protected DetectHumanDetectionConfig.DetectHumanDetectionDTO detectHumanDetectionDTO;
     /**
      * name
      */
@@ -35,12 +35,12 @@ public class DetectHumanDetection0Config extends DeviceConfig{
     @SerializedName("SessionID")
     protected String sessionId;
 
-    public List<DetectHumanDetectionConfig.DetectHumanDetectionDTO> getDetectHumanDetectionDTOS() {
-        return detectHumanDetectionDTOS;
+    public DetectHumanDetectionConfig.DetectHumanDetectionDTO getDetectHumanDetectionDTO() {
+        return detectHumanDetectionDTO;
     }
 
-    public void setDetectHumanDetectionDTOS(List<DetectHumanDetectionConfig.DetectHumanDetectionDTO> detectHumanDetectionDTOS) {
-        this.detectHumanDetectionDTOS = detectHumanDetectionDTOS;
+    public void setDetectHumanDetectionDTO(DetectHumanDetectionConfig.DetectHumanDetectionDTO detectHumanDetectionDTO) {
+        this.detectHumanDetectionDTO = detectHumanDetectionDTO;
     }
 
     public String getName() {

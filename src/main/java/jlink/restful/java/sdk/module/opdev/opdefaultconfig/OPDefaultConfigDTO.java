@@ -13,7 +13,7 @@ import jlink.restful.java.sdk.module.opdev.DeviceOperateEnum;
 public class OPDefaultConfigDTO implements DeviceOperate {
     @Override
     public DeviceOperateEnum getOperateEnum() {
-        return DeviceOperateEnum.OPDEFAULTCONFIG;
+        return DeviceOperateEnum.OPDefaultConfig;
     }
 
     @SerializedName("Name")
@@ -90,6 +90,31 @@ public class OPDefaultConfigDTO implements DeviceOperate {
          */
         @SerializedName("Record")
         private boolean record;
+        /** restore default config */
+        @SerializedName("RestoreDefaultConfig")
+        private boolean restoreDefaultConfig;
+        /** restore factory config */
+        @SerializedName("RestoreFactoryConfig")
+        private boolean restoreFactoryConfig;
+        /**  */
+        @SerializedName("RestoreNotCommonIPDefault")
+        private boolean restoreNotCommonIPDefault;
+
+        public boolean isRestoreFactoryConfig() {
+            return restoreFactoryConfig;
+        }
+
+        public void setRestoreFactoryConfig(boolean restoreFactoryConfig) {
+            this.restoreFactoryConfig = restoreFactoryConfig;
+        }
+
+        public boolean isRestoreDefaultConfig() {
+            return restoreDefaultConfig;
+        }
+
+        public void setRestoreDefaultConfig(boolean restoreDefaultConfig) {
+            this.restoreDefaultConfig = restoreDefaultConfig;
+        }
 
         public boolean isAccount() {
             return account;

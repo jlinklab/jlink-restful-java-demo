@@ -14,22 +14,22 @@ import java.util.List;
 public class AlarmNetAbortConfig extends DeviceConfig {
 
     @SerializedName("Alarm.NetAbort")
-    private AlarmNetAbortDTO alarmNetAbort;
+    protected AlarmNetAbortDTO alarmNetAbort;
     /**
      * name
      */
     @SerializedName("Name")
-    private String name;
+    protected String name;
     /**
      * Ret
      */
     @SerializedName("Ret")
-    private Integer ret;
+    protected Integer ret;
     /**
      * sessionID
      */
     @SerializedName("SessionID")
-    private String sessionID;
+    protected String sessionID;
 
     public AlarmNetAbortDTO getAlarmNetAbort() {
         return alarmNetAbort;

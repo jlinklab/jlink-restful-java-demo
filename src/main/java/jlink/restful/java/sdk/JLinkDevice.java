@@ -6,7 +6,12 @@ import jlink.restful.java.sdk.databind.JLinkServerResponse;
 import jlink.restful.java.sdk.exception.*;
 import jlink.restful.java.sdk.module.ability.DeviceAbilityRequest;
 import jlink.restful.java.sdk.module.ability.DeviceAbilityResponse;
+import jlink.restful.java.sdk.module.cloudstorage.DeviceCloudStorageAlarmRequest;
+import jlink.restful.java.sdk.module.cloudstorage.DeviceCloudStoragePicResponse;
 import jlink.restful.java.sdk.module.capture.DeviceCaptureRequest;
+import jlink.restful.java.sdk.module.alarm.DeviceAlarmListRequest;
+import jlink.restful.java.sdk.module.alarm.DeviceAlarmListResponse;
+import jlink.restful.java.sdk.module.cloudstorage.DeviceCloudStorageVideoListResponse;
 import jlink.restful.java.sdk.module.config.DeviceConfig;
 import jlink.restful.java.sdk.module.devicetoken.DeviceTokenRequest;
 import jlink.restful.java.sdk.module.info.DeviceInfoRequest;
@@ -31,6 +36,7 @@ import jlink.restful.java.sdk.module.usermanage.DeviceUserManageResponse;
 import jlink.restful.java.sdk.util.JLinkHttpUtil;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -273,7 +279,42 @@ public class JLinkDevice {
     public String capture(JLinkUser jUser) {
         return capture(0, jUser);
     }
-
+    /*
+     * cloud storage alarm pic
+     */
+    public List<DeviceCloudStoragePicResponse.UrlDto> getPicUrl(List<String> alarmIds){
+        if(!session.isLogin()){
+            login();
+        }
+        return new DeviceCloudStorageAlarmRequest().getPicUrl(alarmIds, getDeviceToken());
+    }
+    /**
+     * cloud storage alarm video
+     */
+    public String getVideoUrl(String startTime, String stopTime){
+        if(!session.isLogin()){
+            login();
+        }
+        return new DeviceCloudStorageAlarmRequest().getVideoUrl(startTime, stopTime, getDeviceToken());
+    }
+    /**
+     * cloud storage alarm video
+     */
+    public List<DeviceCloudStorageVideoListResponse.DataDTO.VideoDTO> getVideoList(String startTime, String stopTime){
+        if(!session.isLogin()){
+            login();
+        }
+        return new DeviceCloudStorageAlarmRequest().getVideoList(startTime, stopTime, getDeviceToken());
+    }
+    /**
+     * get playback video thumbnail
+     */
+    public List<DeviceCloudStoragePicResponse.UrlDto> getVideoPicUrl(List<DeviceCloudStorageAlarmRequest.GetVideoPicUrlParam> param){
+        if(!session.isLogin()){
+            login();
+        }
+        return new DeviceCloudStorageAlarmRequest().getVideoPicUrl(param, getDeviceToken());
+    }
     /**
      * Device subscribes to alarm messages
      */
@@ -313,6 +354,10 @@ public class JLinkDevice {
 
     public String devicePlayback(int channel, int stream, String startTime, String endTime, String fileName, JLinkUser jUser) {
         return new DevicePlaybackRequest().devicePlayback(mDeviceUser, mDevicePass, channel, stream, startTime, endTime, fileName, jUser.getUserToken(), getDeviceToken());
+    }
+
+    public DeviceAlarmListResponse getAlarmList(String sn, String startTime, String endTime) {
+        return new DeviceAlarmListRequest().getDeviceAlarmList(sn, startTime, endTime, getDeviceToken());
     }
 
     /******************************basic Method*********************************/

@@ -9,6 +9,7 @@ package jlink.restful.java.sdk.competent;
 public enum JLinkDeviceInfoEnum {
     //systemInformation
     SystemInfo,
+    StorageInfo
     ;
 
     public static JLinkDeviceInfoEnum get(String mInfo) {

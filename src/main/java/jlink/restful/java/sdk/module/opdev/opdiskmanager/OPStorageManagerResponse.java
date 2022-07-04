@@ -1,15 +1,15 @@
-package jlink.restful.java.sdk.module.opdev.optimequery;
+package jlink.restful.java.sdk.module.opdev.opdiskmanager;
 
 import com.google.gson.annotations.SerializedName;
 import jlink.restful.java.sdk.module.opdev.DeviceOperateResponse;
 
 /**
- * System time query response
+ * StorageManagerResponse
  *
  * @author luojx
- * @date 2022/6/16 17:22
+ * @date 2022/6/21 16:25
  */
-public class OPTimeQueryResponse extends DeviceOperateResponse {
+public class OPStorageManagerResponse extends DeviceOperateResponse {
     @SerializedName("Name")
     private String name;
     @SerializedName("Ret")
