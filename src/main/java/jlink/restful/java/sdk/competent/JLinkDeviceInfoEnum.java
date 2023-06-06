@@ -7,9 +7,12 @@ package jlink.restful.java.sdk.competent;
  * @date 2022/04/21
  */
 public enum JLinkDeviceInfoEnum {
-    //systemInformation
+    //SystemInformation
     SystemInfo,
-    StorageInfo
+    //Storage
+    StorageInfo,
+    //Wifi Mac
+    WifiRouteInfo
     ;
 
     public static JLinkDeviceInfoEnum get(String mInfo) {

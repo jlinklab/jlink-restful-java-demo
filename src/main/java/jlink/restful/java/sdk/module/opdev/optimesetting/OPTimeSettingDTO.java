@@ -11,7 +11,7 @@ import jlink.restful.java.sdk.module.opdev.DeviceOperateEnum;
 public class OPTimeSettingDTO implements DeviceOperate {
     @Override
     public DeviceOperateEnum getOperateEnum() {
-        return DeviceOperateEnum.OPTIMESETTING;
+        return DeviceOperateEnum.OPTimeSetting;
     }
 
     @SerializedName("Name")

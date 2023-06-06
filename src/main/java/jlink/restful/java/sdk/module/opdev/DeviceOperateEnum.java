@@ -25,7 +25,7 @@ import java.lang.reflect.Type;
  * @date 2022/04/21
  */
 public enum DeviceOperateEnum {
-    OPMACHINE("OPMACHINE", new TypeToken<DeviceOperateResponse<OPMachineResponse>>() {
+    OPMachine("OPMachine", new TypeToken<DeviceOperateResponse<OPMachineResponse>>() {
     }.getType()),
     //恢复默认
     OPDefaultConfig("OPDefaultConfig", new TypeToken<DeviceOperateResponse<OPMachineResponse>>() {
@@ -48,7 +48,9 @@ public enum DeviceOperateEnum {
     }.getType()),
     OPFileQuery("OPFileQuery", new TypeToken<DeviceOperateResponse<OPFileQueryResponse>>() {
     }.getType()),
-    OPTIMESETTING("OPFileQuery", new TypeToken<DeviceOperateResponse<OPTimeQueryResponse>>() {
+    OPTimeSetting("OPTimeSetting", new TypeToken<DeviceOperateResponse<OPTimeQueryResponse>>() {
+    }.getType()),
+    OPSystemZONE("System.TimeZone", new TypeToken<DeviceOperateResponse<OPTimeQueryResponse>>() {
     }.getType()),
     OPRecordTimeQuery("OPFileQuery", new TypeToken<DeviceOperateResponse<OPTimeQueryResponse>>() {
     }.getType()),

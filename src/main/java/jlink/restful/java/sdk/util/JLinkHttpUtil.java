@@ -5,12 +5,10 @@ import jlink.restful.java.sdk.competent.JLinkResponseCode;
 import jlink.restful.java.sdk.exception.JLinkHttpException;
 
 import javax.net.ssl.*;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,6 +35,11 @@ public class JLinkHttpUtil {
     public static String httpsRequest(String requestUrl, String requestMethod, Map<String, String> requestHeader,
                                       String bodyParam) {
         JLinkLog.i("httpsRequest url:<--" + requestUrl);
+        try {
+            bodyParam = URLDecoder.decode(bodyParam, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         JLinkLog.i("httpsRequest body:<--" + bodyParam);
         HttpsURLConnection conn = null;
         try {

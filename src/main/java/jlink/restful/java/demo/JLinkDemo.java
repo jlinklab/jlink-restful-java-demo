@@ -9,6 +9,8 @@ import jlink.restful.java.sdk.competent.JLinkDeviceConfigTypeEnum;
 import jlink.restful.java.sdk.competent.JLinkDeviceResponseCode;
 import jlink.restful.java.sdk.exception.*;
 import jlink.restful.java.sdk.module.ability.DeviceAbilityResponse;
+import jlink.restful.java.sdk.module.cloudstorage.DeviceCloudStorageAlarmRequest;
+import jlink.restful.java.sdk.module.cloudstorage.DeviceCloudStoragePicResponse;
 import jlink.restful.java.sdk.module.config.NetWorkDasConfig;
 import jlink.restful.java.sdk.module.livestream.DeviceLiveStreamEnum;
 import jlink.restful.java.sdk.module.login.DeviceLoginData;
@@ -19,6 +21,8 @@ import jlink.restful.java.sdk.module.usermanage.group.GroupsDTO;
 import jlink.restful.java.sdk.module.usermanage.group.GroupsResponse;
 import jlink.restful.java.sdk.util.JLinkLog;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -167,6 +171,33 @@ public class JLinkDemo {
             String picUrl = jDevice.capture(0, jUser);
             JLinkLog.i(picUrl);
         } catch (JLinkDeviceCaptureException e) {
+            JLinkLog.e(e.toString());
+        }
+
+        /**
+         * Get device cloud storage alarm pictures and videos
+         */
+        try{
+            List<DeviceCloudStoragePicResponse.UrlDto> picUrl = jDevice.getPicUrl(Arrays.asList("135465"));
+            String videoUrl = jDevice.getVideoUrl("2022-07-01 13:11:35", "2022-07-01 13:13:35");
+        }catch(Exception e){
+            JLinkLog.e(e.toString());
+        }
+        /**
+         * get device cloud storage alarm video list
+         */
+        try{
+            jDevice.getVideoList("2022-07-01 13:11:35", "2022-07-01 13:13:35");
+        }catch(Exception e){
+            JLinkLog.e(e.toString());
+        }
+        /**
+         * get playback video thumbnail
+         */
+        try{
+            jDevice.getVideoPicUrl(Arrays.asList(new DeviceCloudStorageAlarmRequest.GetVideoPicUrlParam("c4f75aff9e622643_220630144544_1656571545.jpeg", "OBS_obs-cn-vid-01"),
+                    new DeviceCloudStorageAlarmRequest.GetVideoPicUrlParam("b11ffe8d6b812473_220701102122_1656642082.jpeg", "OBS_obs-cn-vid-01")));
+        }catch(Exception e){
             JLinkLog.e(e.toString());
         }
 

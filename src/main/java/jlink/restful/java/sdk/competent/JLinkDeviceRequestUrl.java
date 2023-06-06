@@ -8,8 +8,8 @@ public enum JLinkDeviceRequestUrl {
      * capture
      */
     DEVICE_CAPTURE("v2/rtc/device/capture"),
-     /*
-      * get pic url
+    /*
+     * get pic url
      */
     DEVICE_GETPICURL("v2/rtc/device/getPicUrl"),
     /**
@@ -87,7 +87,11 @@ public enum JLinkDeviceRequestUrl {
     /**
      * alarm list
      */
-    CLOUD_ALARM_LIST("v2/rtc/device/getDeviceAlarmList");
+    CLOUD_ALARM_LIST("v2/rtc/device/getDeviceAlarmList"),
+    /**
+     * device Local Pic
+     */
+    DEVICE_LOCAL_PIC("v2/rtc/device/getDeviceLocalPic");
 
 
     private final String requestUrl;

@@ -1,30 +1,19 @@
-package jlink.restful.java.sdk.module.usermanage.user;
+package jlink.restful.java.sdk.module.opdev.opsystemtimezone;
 
 import com.google.gson.annotations.SerializedName;
-import jlink.restful.java.sdk.module.usermanage.DeviceUserManageResponse;
+import jlink.restful.java.sdk.module.opdev.DeviceOperateResponse;
 
 /**
  * @author luojx
- * @date 2022/6/15 14:02
+ * @date 2022/6/16 10:16
  */
-public class AddUserResponse extends DeviceUserManageResponse {
-    /**
-     * name
-     */
+public class OPSystemTimeZoneResponse extends DeviceOperateResponse {
     @SerializedName("Name")
     private String name;
-    /**
-     * Ret
-     */
     @SerializedName("Ret")
     private Integer ret;
     @SerializedName("SessionID")
     private String sessionID;
-    /**
-     * ret message
-     */
-    @SerializedName("RetMsg")
-    protected String retMsg;
 
     public String getName() {
         return name;
@@ -48,13 +37,5 @@ public class AddUserResponse extends DeviceUserManageResponse {
 
     public void setSessionID(String sessionID) {
         this.sessionID = sessionID;
-    }
-
-    public String getRetMsg() {
-        return retMsg;
-    }
-
-    public void setRetMsg(String retMsg) {
-        this.retMsg = retMsg;
     }
 }

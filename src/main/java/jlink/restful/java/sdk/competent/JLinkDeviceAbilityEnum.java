@@ -6,6 +6,7 @@ package jlink.restful.java.sdk.competent;
 public enum JLinkDeviceAbilityEnum {
     //system capability set
     SYSTEMFUNCTION("SystemFunction"),
+    DOORFUNCTION("DoorFunction"),
     //Coding Capability Set
     ENCODECAPABILITY("EncodeCapability"),
     //Area Occlusion Capability Set

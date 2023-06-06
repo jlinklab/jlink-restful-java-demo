@@ -1,6 +1,7 @@
 package jlink.restful.java.sdk.module.login;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import jlink.restful.java.sdk.competent.*;
 import jlink.restful.java.sdk.exception.JLinkDeviceLoginException;
@@ -8,6 +9,9 @@ import jlink.restful.java.sdk.exception.JLinkJsonException;
 import jlink.restful.java.sdk.util.JLinkHttpUtil;
 import jlink.restful.java.sdk.util.JLinkLog;
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Device Login Request
@@ -52,10 +56,10 @@ public class DeviceLoginRequest {
     private DeviceLoginData deviceLogin(DeviceLoginDto dto, String devToken) {
         //Define the return bean for obtaining the device login, and verify the login parameters
         int verifyCode = verifyJLinkDeviceLoginDto(dto);
+        String requestDeviceLoginUrl = String.format("%s/%s/%s", JLinkDomain.RESTFUL_DOMAIN.get(), JLinkDeviceRequestUrl.DEVICE_LOGIN.get(), devToken);
         if (verifyCode == JLinkResponseCode.SUCCESS.getCode()) {
             //Parameter verification passed, login by username and password
             //Assemble the request address for logging in to the device requestDeviceLoginUrl
-            String requestDeviceLoginUrl = String.format("%s/%s/%s", JLinkDomain.RESTFUL_DOMAIN.get(), JLinkDeviceRequestUrl.DEVICE_LOGIN.get(), devToken);
             JLinkLog.d("requestDeviceLoginUrl:\r\n" + requestDeviceLoginUrl);
             //Assign attributes to encapsulate the complete parameters of the request restfulAPI
             LoginBo bo = new LoginBo();
@@ -84,9 +88,33 @@ public class DeviceLoginRequest {
                 throw new JLinkJsonException(JLinkResponseCode.JSON_ERROR.getCode(), res);
             }
         } else {
-            //If the parameter verification is passed, press the login Token to log in
-            //temporaryDoesNotSupport
-            throw new JLinkDeviceLoginException(JLinkDeviceResponseCode.VERSION_NOT_SUPPORTED.getCode(), "Not Support LoginToken");
+            JsonObject param = new JsonObject();
+            try {
+                String loginToken = URLEncoder.encode(dto.getLoginToken(), "utf-8");
+                param.addProperty("LoginToken", loginToken);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            String res = JLinkHttpUtil.httpsRequest(requestDeviceLoginUrl, JLinkMethodType.POST.get(), null, new Gson().toJson(param));
+            JLinkLog.d("Login res:\r\n" + res);
+            try {
+                DeviceLoginResponse response = new Gson().fromJson(res, DeviceLoginResponse.class);
+                if (response.getCode() == JLinkResponseCode.SUCCESS.getCode()) {
+                    if (response.getData().getRet() == JLinkDeviceResponseCode.SUCCESS.getCode()) {
+                        //Device login successfully
+                        return response.getData();
+                    } else {
+                        //If the RESTFul API request is successful, the device returns the login failure, and the returned information is judged uniformly according to the ret value.
+                        throw new JLinkDeviceLoginException(response.getData().getRet(), response.getData().getRetMsg());
+                    }
+                } else {
+                    //RESTFul API request status code judgment
+                    throw new JLinkDeviceLoginException(response.getCode(), JLinkResponseCode.get(response.getCode()).getMsg());
+                }
+            } catch (Exception e) {
+                throw new JLinkJsonException(JLinkResponseCode.JSON_ERROR.getCode(), res);
+            }
         }
     }
 
@@ -177,6 +205,7 @@ public class DeviceLoginRequest {
          *
          * @return
          */
+        @SerializedName("LoginToken")
         private String loginToken;
 
         public String getDevUsername() {

@@ -76,10 +76,10 @@ public enum JLinkDeviceConfigTypeEnum {
     //Maximum Encoding Capability Supported
     ABILITYENCODEPOWER("Ability.EncodePower", new TypeToken<DeviceConfig<Object>>() {
     }.getType()),
-    //获取支持哪些人形报警提示语音
+    //get alarm sound list
     ABILITYVOICETIPTYPE("Ability.VoiceTipType", new TypeToken<DeviceConfig<AbilityVoiceTipTypeConfig>>() {
     }.getType()),
-    //系统状态
+    //System State
     GENERALSYSTEMSTATE("General.SystemState", new TypeToken<DeviceConfig<NetWorkDasConfig>>() {
     }.getType()),
     //ChannelTitle
@@ -98,10 +98,10 @@ public enum JLinkDeviceConfigTypeEnum {
     DETECTHUMANDETECTION0("Detect.HumanDetection.[0]", new TypeToken<DeviceConfig<DetectHumanDetection0Config>>() {
     }.getType()),
     //LocalAlarm
-    ALARMLOCALALARM("Alarm.LocalAlarm", new TypeToken<DeviceConfig<Object>>() {
+    ALARMLOCALALARM("Alarm.LocalAlarm", new TypeToken<DeviceConfig<AlarmLocalAlarmConfig>>() {
     }.getType()),
     //AlarmOut
-    ALARMALARMOUT("Alarm.AlarmOut", new TypeToken<DeviceConfig<Object>>() {
+    ALARMALARMOUT("Alarm.AlarmOut", new TypeToken<DeviceConfig<AlarmAlarmOutConfig>>() {
     }.getType()),
     //Comm
     UARTCOMM("Uart.Comm", new TypeToken<DeviceConfig<UartCommConfig>>() {
@@ -230,7 +230,7 @@ public enum JLinkDeviceConfigTypeEnum {
     //userGroup Permissions ConfigurationInformation
     GROUPS("Groups", new TypeToken<DeviceConfig<Object>>() {
     }.getType()),
-    //编码参数配置
+    //coding parameter configuration
     SIMPLIFYENCODE("Simplify.Encode", new TypeToken<DeviceConfig<SimplifyEncodeConfig>>() {
     }.getType()),
     //user Configuration
