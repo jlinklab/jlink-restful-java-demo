@@ -1,10 +1,14 @@
 package jlink.restful.java.sdk.module.livestream;
 
 import com.google.gson.Gson;
+import jlink.restful.java.sdk.JLinkClient;
 import jlink.restful.java.sdk.competent.*;
 import jlink.restful.java.sdk.exception.JLinkDeviceLiveStreamException;
 import jlink.restful.java.sdk.exception.JLinkJsonException;
 import jlink.restful.java.sdk.util.JLinkHttpUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Device LiveStream Request
@@ -14,8 +18,8 @@ import jlink.restful.java.sdk.util.JLinkHttpUtil;
  */
 public class DeviceLiveStreamRequest {
 
-    public String deviceLivestream(String user, String pass, String channel, String stream, String mediaType, String protocol, String userToken, String devToken) {
-        return deviceLivestream(user, pass, channel, stream, mediaType, protocol, null, userToken, devToken);
+    public String deviceLivestream(String user, String pass, String channel, String stream, String mediaType, String protocol, String userToken, String devToken, JLinkClient jClient) {
+        return deviceLivestream(user, pass, channel, stream, mediaType, protocol, null, null, null, userToken, devToken, jClient);
     }
 
 
@@ -30,7 +34,11 @@ public class DeviceLiveStreamRequest {
      * @param userToken
      * @return {@link DeviceLiveStreamResponse.DataDTO}
      */
-    public String deviceLivestream(String user, String pass, String channel, String stream, String mediaType, String protocol, String expireTime, String userToken, String devToken) {
+    public String deviceLivestream(String user, String pass, String channel, String stream, String mediaType, String protocol, String expireTime, String videoCode, String audioCode, String userToken, String devToken, JLinkClient jClient) {
+        Map<String, String> header = new HashMap<>();
+        header.put("appKey", jClient.getAppKey());
+        header.put("uuid", jClient.getUuid());
+
         DeviceLiveStreamResponse response;
         String requestUrl = String.format("%s/%s/%s", JLinkDomain.RESTFUL_DOMAIN.get(), JLinkDeviceRequestUrl.DEVICE_LIVESTREAM.get(), devToken);
         LiveStreamParam param = new LiveStreamParam();
@@ -41,9 +49,11 @@ public class DeviceLiveStreamRequest {
         param.setUserToken(userToken);
         param.setUsername(user);
         param.setDevPwd(pass);
-        if (null != expireTime) param.setExpireTime(expireTime);
+        if (null != expireTime && !"".equals(expireTime)) param.setExpireTime(expireTime);
+        if (null != videoCode && !"".equals(videoCode)) param.setVideoCode(videoCode);
+        if (null != audioCode && !"".equals(audioCode)) param.setAudioCode(audioCode);
         //send https request
-        String res = JLinkHttpUtil.httpsRequest(requestUrl, JLinkMethodType.POST.get(), null, new Gson().toJson(param));
+        String res = JLinkHttpUtil.httpsRequest(requestUrl, JLinkMethodType.POST.get(), header, new Gson().toJson(param));
         try {
             response = new Gson().fromJson(res, DeviceLiveStreamResponse.class);
             if (response.getCode() == JLinkResponseCode.SUCCESS.getCode()) {
@@ -102,6 +112,26 @@ public class DeviceLiveStreamRequest {
          * dueToTime
          */
         public String expireTime;
+
+        public String videoCode;
+
+        public String audioCode;
+
+        public String getAudioCode() {
+            return audioCode;
+        }
+
+        public void setAudioCode(String audioCode) {
+            this.audioCode = audioCode;
+        }
+
+        public String getVideoCode() {
+            return videoCode;
+        }
+
+        public void setVideoCode(String videoCode) {
+            this.videoCode = videoCode;
+        }
 
         public String getMediaType() {
             return mediaType;

@@ -24,6 +24,7 @@ public enum JLinkDeviceAbilityEnum {
     TALKAUDIOFORMAT("TalkAudioFormat"),
     //Supported languages
     MULTILANGUAGE("MultiLanguage"),
+    MULTIVSTD("MultiVstd"),
     //Support video format
     ABILITYSUPPORTVSTD("Ability.SupportVstd"),
     //Device Description

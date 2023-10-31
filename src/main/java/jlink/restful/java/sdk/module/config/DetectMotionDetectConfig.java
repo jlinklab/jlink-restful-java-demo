@@ -1,6 +1,8 @@
 package jlink.restful.java.sdk.module.config;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
@@ -189,7 +191,7 @@ public class DetectMotionDetectConfig extends DeviceConfig{
                 @SerializedName("Enable")
                 private Boolean enable;
                 @SerializedName("WeekMask")
-                private Boolean weekMask;
+                private Integer weekMask;
 
                 public Boolean getEnable() {
                     return enable;
@@ -199,11 +201,11 @@ public class DetectMotionDetectConfig extends DeviceConfig{
                     this.enable = enable;
                 }
 
-                public Boolean getWeekMask() {
+                public Integer getWeekMask() {
                     return weekMask;
                 }
 
-                public void setWeekMask(Boolean weekMask) {
+                public void setWeekMask(Integer weekMask) {
                     this.weekMask = weekMask;
                 }
             }

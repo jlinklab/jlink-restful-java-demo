@@ -1,6 +1,7 @@
 package jlink.restful.java.sdk.module.status;
 
 import com.google.gson.Gson;
+import jlink.restful.java.sdk.JLinkClient;
 import jlink.restful.java.sdk.competent.JLinkDeviceRequestUrl;
 import jlink.restful.java.sdk.competent.JLinkDomain;
 import jlink.restful.java.sdk.competent.JLinkMethodType;
@@ -9,7 +10,9 @@ import jlink.restful.java.sdk.exception.JLinkJsonException;
 import jlink.restful.java.sdk.util.JLinkHttpUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * DeviceGetStatusRequest
@@ -21,16 +24,22 @@ public class DeviceGetStatusRequest {
      * @param token
      * @return {@link DeviceStatusData}
      */
-    public DeviceStatusData getDeviceStatus(String token) {
+    public DeviceStatusData getDeviceStatus(String token, JLinkClient jClient) {
         List<String> str = new ArrayList<>();
         str.add(token);
         StatusDto dto = new StatusDto();
         dto.setToken(str);
         dto.setOtherStatus(true);
+
+        Map<String, String> header = new HashMap<>();
+        if (null != jClient) {
+            header.put("appKey", jClient.getAppKey());
+            header.put("uuid", jClient.getUuid());
+        }
         //Assemble the request address for obtaining the device ret requestDeviceStatusUrl
         String requestDeviceStatusUrl = String.format("%s/%s", JLinkDomain.RESTFUL_DOMAIN.get(), JLinkDeviceRequestUrl.DEVICE_STATUS.get());
         //send https request
-        String res = JLinkHttpUtil.httpsRequest(requestDeviceStatusUrl, JLinkMethodType.POST.get(), null, new Gson().toJson(dto));
+        String res = JLinkHttpUtil.httpsRequest(requestDeviceStatusUrl, JLinkMethodType.POST.get(), header, new Gson().toJson(dto));
         //Convert the return string to a bean object
         try {
             DeviceStatusResponse response = new Gson().fromJson(res, DeviceStatusResponse.class);

@@ -43,10 +43,10 @@ public class OPStorageInfoResponse extends DeviceOperateResponse {
             private Integer dirverType;
             /** Drive size, is the unit */
             @SerializedName("TotalSpace")
-            private Integer totalSpace;
+            private String totalSpace;
             /** Total space, M is the unit */
             @SerializedName("RemainSpace")
-            private Integer remainSpace;
+            private String remainSpace;
             /** Is it the current working drive */
             @SerializedName("IsCurrent")
             private Boolean isCurrent;
@@ -77,19 +77,19 @@ public class OPStorageInfoResponse extends DeviceOperateResponse {
                 this.dirverType = dirverType;
             }
 
-            public Integer getTotalSpace() {
+            public String getTotalSpace() {
                 return totalSpace;
             }
 
-            public void setTotalSpace(Integer totalSpace) {
+            public void setTotalSpace(String totalSpace) {
                 this.totalSpace = totalSpace;
             }
 
-            public Integer getRemainSpace() {
+            public String getRemainSpace() {
                 return remainSpace;
             }
 
-            public void setRemainSpace(Integer remainSpace) {
+            public void setRemainSpace(String remainSpace) {
                 this.remainSpace = remainSpace;
             }
 

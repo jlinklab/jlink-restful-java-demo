@@ -16,6 +16,8 @@ public class OPTimeQueryResponse extends DeviceOperateResponse {
     private Integer ret;
     @SerializedName("SessionID")
     private String sessionID;
+    @SerializedName("OPTimeQuery")
+    private String opTimeQuery;
 
     public String getName() {
         return name;
@@ -39,5 +41,13 @@ public class OPTimeQueryResponse extends DeviceOperateResponse {
 
     public void setSessionID(String sessionID) {
         this.sessionID = sessionID;
+    }
+
+    public String getOpTimeQuery() {
+        return opTimeQuery;
+    }
+
+    public void setOpTimeQuery(String opTimeQuery) {
+        this.opTimeQuery = opTimeQuery;
     }
 }

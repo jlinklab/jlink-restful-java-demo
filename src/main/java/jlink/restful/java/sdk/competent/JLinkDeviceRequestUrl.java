@@ -91,10 +91,14 @@ public enum JLinkDeviceRequestUrl {
     /**
      * device Local Pic
      */
-    DEVICE_LOCAL_PIC("v2/rtc/device/getDeviceLocalPic");
+    DEVICE_LOCAL_PIC("v2/rtc/device/getDeviceLocalPic"),
+    /**
+     * customConfiguration
+     */
+    TAILORED_CONFIG("v2/rtc/device/getTailoredConfig");
 
 
-    private final String requestUrl;
+    private String requestUrl;
 
     JLinkDeviceRequestUrl(String requestUrl) {
         this.requestUrl = requestUrl;
@@ -102,5 +106,9 @@ public enum JLinkDeviceRequestUrl {
 
     public String get() {
         return requestUrl;
+    }
+
+    public void set(String requestUrl) {
+        this.requestUrl = requestUrl;
     }
 }

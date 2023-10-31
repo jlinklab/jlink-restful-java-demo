@@ -3,6 +3,7 @@ package jlink.restful.java.sdk.module.login;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
+import jlink.restful.java.sdk.JLinkClient;
 import jlink.restful.java.sdk.competent.*;
 import jlink.restful.java.sdk.exception.JLinkDeviceLoginException;
 import jlink.restful.java.sdk.exception.JLinkJsonException;
@@ -12,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Device Login Request
@@ -25,11 +28,19 @@ public class DeviceLoginRequest {
      * @param devToken
      * @return {@link DeviceLoginData}
      */
-    public DeviceLoginData deviceLoginByUser(String devUsername, String devPassword, String devToken) {
+    public DeviceLoginData deviceLoginByUser(String devUsername, String devPassword, String devToken, JLinkClient jLinkClient) {
         DeviceLoginDto dto = new DeviceLoginDto();
         dto.setDevUsername(devUsername);
         dto.setDevPassword(devPassword);
-        return deviceLogin(dto, devToken);
+        return deviceLogin(dto, devToken, jLinkClient);
+    }
+
+    public DeviceLoginData deviceLoginByUser(String devUsername, String devPassword, String devToken, Boolean share, JLinkClient jLinkClient) {
+        DeviceLoginDto dto = new DeviceLoginDto();
+        dto.setDevUsername(devUsername);
+        dto.setDevPassword(devPassword);
+        dto.setShare(share);
+        return deviceLogin(dto, devToken, jLinkClient);
     }
 
     /**
@@ -39,10 +50,10 @@ public class DeviceLoginRequest {
      * @param devToken
      * @return {@link DeviceLoginData}
      */
-    public DeviceLoginData deviceLoginByToken(String loginToken, String devToken) {
+    public DeviceLoginData deviceLoginByToken(String loginToken, String devToken, JLinkClient jLinkClient) {
         DeviceLoginDto dto = new DeviceLoginDto();
         dto.setLoginToken(loginToken);
-        return deviceLogin(dto, devToken);
+        return deviceLogin(dto, devToken, jLinkClient);
     }
 
 
@@ -53,7 +64,10 @@ public class DeviceLoginRequest {
      * @param devToken dev
      * @return {@link DeviceLoginData}
      */
-    private DeviceLoginData deviceLogin(DeviceLoginDto dto, String devToken) {
+    private DeviceLoginData deviceLogin(DeviceLoginDto dto, String devToken, JLinkClient jClient) {
+        Map<String, String> header = new HashMap<>();
+        header.put("appKey", jClient.getAppKey());
+        header.put("uuid", jClient.getUuid());
         //Define the return bean for obtaining the device login, and verify the login parameters
         int verifyCode = verifyJLinkDeviceLoginDto(dto);
         String requestDeviceLoginUrl = String.format("%s/%s/%s", JLinkDomain.RESTFUL_DOMAIN.get(), JLinkDeviceRequestUrl.DEVICE_LOGIN.get(), devToken);
@@ -66,8 +80,9 @@ public class DeviceLoginRequest {
             bo.setDevUsername(dto.getDevUsername());
             bo.setDevPassword(dto.getDevPassword());
             bo.setLoginToken(dto.getLoginToken());
+            bo.setShare(dto.getShare());
             //send https request
-            String res = JLinkHttpUtil.httpsRequest(requestDeviceLoginUrl, JLinkMethodType.POST.get(), null, new Gson().toJson(bo));
+            String res = JLinkHttpUtil.httpsRequest(requestDeviceLoginUrl, JLinkMethodType.POST.get(), header, new Gson().toJson(bo));
             //debug打印返回结果
             JLinkLog.d("Login res:\r\n" + res);
             try {
@@ -155,6 +170,8 @@ public class DeviceLoginRequest {
          */
         private String loginToken;
 
+        private Boolean share;
+
         public String getDevUsername() {
             return devUsername;
         }
@@ -178,6 +195,14 @@ public class DeviceLoginRequest {
         public void setLoginToken(String loginToken) {
             this.loginToken = loginToken;
         }
+
+        public Boolean getShare() {
+            return share;
+        }
+
+        public void setShare(Boolean share) {
+            this.share = share;
+        }
     }
 
     private static class LoginBo {
@@ -200,6 +225,9 @@ public class DeviceLoginRequest {
 
         @SerializedName("LoginType")
         private String loginType = "DVRIP-Web";
+
+        @SerializedName("share")
+        private Boolean share = false;
         /**
          * loginToken
          *
@@ -254,6 +282,14 @@ public class DeviceLoginRequest {
 
         public void setLoginType(String loginType) {
             this.loginType = loginType;
+        }
+
+        public Boolean getShare() {
+            return share;
+        }
+
+        public void setShare(Boolean share) {
+            this.share = share;
         }
     }
 }

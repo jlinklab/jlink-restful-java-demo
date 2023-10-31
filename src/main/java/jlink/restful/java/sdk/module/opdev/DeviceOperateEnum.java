@@ -13,7 +13,9 @@ import jlink.restful.java.sdk.module.opdev.oplogmanager.OPLogManagerResponse;
 import jlink.restful.java.sdk.module.opdev.oplogquery.OPLogQueryResponse;
 import jlink.restful.java.sdk.module.opdev.opmachine.OPMachineResponse;
 import jlink.restful.java.sdk.module.opdev.opreqversion.OPReqVersionResponse;
+import jlink.restful.java.sdk.module.opdev.opsystemconfig.OPSystemConfigResponse;
 import jlink.restful.java.sdk.module.opdev.optimequery.OPTimeQueryResponse;
+import jlink.restful.java.sdk.module.opdev.optimesetting.OPTimeSettingResponse;
 import jlink.restful.java.sdk.module.opdev.opversionlist.OPVersionListResponse;
 
 import java.lang.reflect.Type;
@@ -48,11 +50,13 @@ public enum DeviceOperateEnum {
     }.getType()),
     OPFileQuery("OPFileQuery", new TypeToken<DeviceOperateResponse<OPFileQueryResponse>>() {
     }.getType()),
-    OPTimeSetting("OPTimeSetting", new TypeToken<DeviceOperateResponse<OPTimeQueryResponse>>() {
+    OPTimeSetting("OPTimeSetting", new TypeToken<DeviceOperateResponse<OPTimeSettingResponse>>() {
     }.getType()),
     OPSystemZONE("System.TimeZone", new TypeToken<DeviceOperateResponse<OPTimeQueryResponse>>() {
     }.getType()),
-    OPRecordTimeQuery("OPFileQuery", new TypeToken<DeviceOperateResponse<OPTimeQueryResponse>>() {
+    OPRecordTimeQuery("OPFileQuery", new TypeToken<DeviceOperateResponse<OPFileQueryResponse>>() {
+    }.getType()),
+    OPSystemConfig("OPSystemConfig", new TypeToken<DeviceOperateResponse<OPSystemConfigResponse>>(){
     }.getType()),
     OPVersionList("OPVersionList", new TypeToken<DeviceOperateResponse<OPVersionListResponse>>() {
     }.getType()),

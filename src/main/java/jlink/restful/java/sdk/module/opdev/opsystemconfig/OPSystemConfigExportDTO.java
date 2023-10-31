@@ -15,7 +15,7 @@ import java.util.List;
 public class OPSystemConfigExportDTO implements DeviceOperate {
     @Override
     public DeviceOperateEnum getOperateEnum() {
-        return null;
+        return DeviceOperateEnum.OPSystemConfig;
     }
     @SerializedName("Name")
     private final DeviceOperateEnum name = getOperateEnum();
@@ -65,6 +65,14 @@ public class OPSystemConfigExportDTO implements DeviceOperate {
              */
             @SerializedName("Type")
             private String type;
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
         }
     }
 }

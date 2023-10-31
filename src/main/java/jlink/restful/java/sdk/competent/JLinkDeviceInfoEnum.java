@@ -12,7 +12,9 @@ public enum JLinkDeviceInfoEnum {
     //Storage
     StorageInfo,
     //Wifi Mac
-    WifiRouteInfo
+    WifiRouteInfo,
+    
+    SystemInfoEx
     ;
 
     public static JLinkDeviceInfoEnum get(String mInfo) {

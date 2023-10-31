@@ -31,6 +31,8 @@ import jlink.restful.java.sdk.module.status.DeviceGetStatusRequest;
 import jlink.restful.java.sdk.module.status.DeviceStatusData;
 import jlink.restful.java.sdk.module.subscribe.DeviceSubscribeMessageRequest;
 import jlink.restful.java.sdk.module.subscribe.DeviceUnSubscribeMessageRequest;
+import jlink.restful.java.sdk.module.tailored.TailoredConfigRequest;
+import jlink.restful.java.sdk.module.tailored.TailoredConfigResponse;
 import jlink.restful.java.sdk.module.usermanage.DeviceUserManage;
 import jlink.restful.java.sdk.module.usermanage.DeviceUserManageRequest;
 import jlink.restful.java.sdk.module.usermanage.DeviceUserManageResponse;
@@ -104,7 +106,11 @@ public class JLinkDevice {
      * access to device State
      */
     public DeviceStatusData deviceStatus() {
-        return new DeviceGetStatusRequest().getDeviceStatus(getDeviceToken());
+        return new DeviceGetStatusRequest().getDeviceStatus(getDeviceToken(), this.mJLinkClient);
+    }
+
+    public DeviceStatusData deviceStatus(JLinkClient jClient) {
+        return new DeviceGetStatusRequest().getDeviceStatus(getDeviceToken(), jClient);
     }
 
     /**
@@ -142,7 +148,20 @@ public class JLinkDevice {
      * @return {@link DeviceLoginData}
      */
     public DeviceLoginData login() {
-        DeviceLoginData loginData = deviceLoginByUser(mDeviceUser, mDevicePass);
+        DeviceLoginData loginData = deviceLoginByUser(mDeviceUser, mDevicePass, false);
+        if (loginData.getRet() == 100) {
+            session.setLogin(true);
+            //todo Login successful keep heartbeat
+        }
+        return loginData;
+    }
+
+    /**
+     * @param share share's device
+     * @return {@link DeviceLoginData}
+     */
+    public DeviceLoginData login(Boolean share) {
+        DeviceLoginData loginData = deviceLoginByUser(mDeviceUser, mDevicePass, share);
         if (loginData.getRet() == 100) {
             session.setLogin(true);
             //todo Login successful keep heartbeat
@@ -193,6 +212,17 @@ public class JLinkDevice {
         return wrapper;
     }
 
+    /**
+     * setDeviceConfiguration with return info
+     */
+    public DeviceConfig settingConfig(DeviceConfig setConfig) {
+        if (!session.isLogin()) {
+            login();
+        }
+        String url = String.format("%s/%s/%s", JLinkDomain.RESTFUL_DOMAIN.get(), JLinkDeviceRequestUrl.DEVICE_SETCONFIG.get(), getDeviceToken());
+        return posting(setConfig, url);
+    }
+
 
     /**
      * setDeviceConfiguration
@@ -207,6 +237,19 @@ public class JLinkDevice {
     }
 
 
+    /**
+     * setDeviceConfiguration with return info
+     */
+    private DeviceConfig posting(DeviceConfig setConfig, String url) {
+        String body = JLinkHttpUtil.post(url, null, new Gson().toJson(setConfig));
+        DeviceConfig res = new Gson().fromJson(body, DeviceConfig.class);
+        if (res.getCode() == JLinkResponseCode.SUCCESS.getCode()) {
+            return res;
+        } else {
+            throw new JLinkDeviceGetConfigException(res.getCode(), res.getMsg());
+        }
+    }
+
     private Boolean post(DeviceConfig setConfig, String url) {
         String body = JLinkHttpUtil.post(url, null, new Gson().toJson(setConfig));
         DeviceConfig res = new Gson().fromJson(body, DeviceConfig.class);
@@ -217,6 +260,14 @@ public class JLinkDevice {
         }
     }
 
+    public Object tailoredConfig() {
+        TailoredConfigResponse response = TailoredConfigRequest.tailoredConfig(getSn(), getDeviceToken());
+        if (response.getCode() == JLinkResponseCode.SUCCESS.getCode()) {
+            return response.getData();
+        } else {
+            throw new JLinkException(response.getCode(), response.getMsg());
+        }
+    }
 
     /**
      * device Operation
@@ -229,7 +280,7 @@ public class JLinkDevice {
             login();
         }
         //todo 2.device Operation
-        DeviceOperateResponse response = DeviceOperateRequest.operate(operate, getDeviceToken());
+        DeviceOperateResponse response = DeviceOperateRequest.operate(operate, getDeviceToken(), this.mJLinkClient);
         if (response.getCode() == JLinkResponseCode.SUCCESS.getCode()) {
             return response.getData();
         } else {
@@ -257,11 +308,15 @@ public class JLinkDevice {
      * @return {@link String}
      */
     public String deviceLivestream(int channel, String stream, String mediaType, String protocol, JLinkUser jUser) {
-        return new DeviceLiveStreamRequest().deviceLivestream(mDeviceUser, mDevicePass, String.valueOf(channel), stream, mediaType, protocol, jUser.getUserToken(), getDeviceToken());
+        return new DeviceLiveStreamRequest().deviceLivestream(mDeviceUser, mDevicePass, String.valueOf(channel), stream, mediaType, protocol, jUser.getUserToken(), getDeviceToken(), this.mJLinkClient);
     }
 
     public String deviceLivestream(int channel, String stream, String mediaType, String protocol, String expireTime, JLinkUser jUser) {
-        return new DeviceLiveStreamRequest().deviceLivestream(mDeviceUser, mDevicePass, String.valueOf(channel), stream, mediaType, protocol, expireTime, jUser.getUserToken(), getDeviceToken());
+        return new DeviceLiveStreamRequest().deviceLivestream(mDeviceUser, mDevicePass, String.valueOf(channel), stream, mediaType, protocol, expireTime, null, null, jUser.getUserToken(), getDeviceToken(), this.mJLinkClient);
+    }
+
+    public String deviceLivestream(String channel, String stream, String mediaType, String protocol, String expireTime, String videoCode, String audioCode, JLinkUser jUser) {
+        return new DeviceLiveStreamRequest().deviceLivestream(mDeviceUser, mDevicePass, channel, stream, mediaType, protocol, expireTime, videoCode, audioCode, jUser.getUserToken(), getDeviceToken(), this.mJLinkClient);
     }
 
     /**
@@ -285,9 +340,9 @@ public class JLinkDevice {
      * cloud storage alarm pic
      */
     public List<DeviceCloudStoragePicResponse.UrlDto> getPicUrl(List<String> alarmIds) {
-        if (!session.isLogin()) {
+        /*if (!session.isLogin()) {
             login();
-        }
+        }*/
         return new DeviceCloudStorageAlarmRequest().getPicUrl(alarmIds, getDeviceToken());
     }
 
@@ -404,7 +459,11 @@ public class JLinkDevice {
      * @return
      */
     public DeviceLoginData deviceLoginByUser(String userName, String passWord) {
-        return new DeviceLoginRequest().deviceLoginByUser(userName, passWord, getDeviceToken());
+        return new DeviceLoginRequest().deviceLoginByUser(userName, passWord, getDeviceToken(), this.mJLinkClient);
+    }
+
+    public DeviceLoginData deviceLoginByUser(String userName, String passWord, Boolean share) {
+        return new DeviceLoginRequest().deviceLoginByUser(userName, passWord, getDeviceToken(), share, this.mJLinkClient);
     }
 
     /**
@@ -414,7 +473,7 @@ public class JLinkDevice {
      * @return
      */
     public DeviceLoginData deviceLoginByToken(String devLoginToken) {
-        DeviceLoginData loginData = new DeviceLoginRequest().deviceLoginByToken(devLoginToken, getDeviceToken());
+        DeviceLoginData loginData = new DeviceLoginRequest().deviceLoginByToken(devLoginToken, getDeviceToken(), this.mJLinkClient);
         if (loginData.getRet() == 100) {
             session.setLogin(true);
             //todo Login successful keep heartbeat
@@ -431,7 +490,12 @@ public class JLinkDevice {
         String url = String.format("%s/%s/%s", JLinkDomain.RESTFUL_DOMAIN.get(), JLinkDeviceRequestUrl.DEVICE_GETCONFIG.get(), getDeviceToken());
         Map<String, String> param = new HashMap<>(1);
         param.put("Name", configTypeEnum.getConfigName());
-        String body = JLinkHttpUtil.post(url, null, new Gson().toJson(param));
+
+        Map<String, String> header = new HashMap<>();
+        header.put("appKey", this.mJLinkClient.getAppKey());
+        header.put("uuid", this.mJLinkClient.getUuid());
+
+        String body = JLinkHttpUtil.post(url, header, new Gson().toJson(param));
         DeviceConfig setConfigCommon = new Gson().fromJson(body, configTypeEnum.getType());
         if (setConfigCommon.getCode() == JLinkResponseCode.SUCCESS.getCode()) {
             return (T) setConfigCommon.getData();

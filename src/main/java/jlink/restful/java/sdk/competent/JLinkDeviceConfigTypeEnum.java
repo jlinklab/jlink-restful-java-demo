@@ -65,13 +65,13 @@ public enum JLinkDeviceConfigTypeEnum {
     VIDEOCHANNEL("VideoChannel", new TypeToken<DeviceConfig<Object>>() {
     }.getType()),
     //BlindDetect Configuration
-    DETECTBLINDDETECT("Detect.BlindDetect", new TypeToken<DeviceConfig<Object>>() {
+    DETECTBLINDDETECT("Detect.BlindDetect", new TypeToken<DeviceConfig<DetectBlindDetectConfig>>() {
     }.getType()),
     //MotionDetect Configuration
-    DETECTMOTIONDETECT("Detect.MotionDetect", new TypeToken<DeviceConfig<Object>>() {
+    DETECTMOTIONDETECT("Detect.MotionDetect", new TypeToken<DeviceConfig<DetectMotionDetectConfig>>() {
     }.getType()),
     //LossDetect Configuration
-    DETECTLOSSDETECT("Detect.LossDetect", new TypeToken<DeviceConfig<Object>>() {
+    DETECTLOSSDETECT("Detect.LossDetect", new TypeToken<DeviceConfig<DetectLossDetectConfig>>() {
     }.getType()),
     //Maximum Encoding Capability Supported
     ABILITYENCODEPOWER("Ability.EncodePower", new TypeToken<DeviceConfig<Object>>() {
@@ -83,13 +83,16 @@ public enum JLinkDeviceConfigTypeEnum {
     GENERALSYSTEMSTATE("General.SystemState", new TypeToken<DeviceConfig<NetWorkDasConfig>>() {
     }.getType()),
     //ChannelTitle
-    CHANNELTITLE("ChannelTitle", new TypeToken<DeviceConfig<Object>>() {
+    CHANNELTITLE("ChannelTitle", new TypeToken<DeviceConfig<ChannelTitleConfig>>() {
     }.getType()),
     //DecodeParam
     MEDIADECODEPARAM("Media.DecodeParam", new TypeToken<DeviceConfig<Object>>() {
     }.getType()),
     //Get Camera parameters
-    CAMERA("Camera", new TypeToken<DeviceConfig<Object>>() {
+    CAMERA("Camera", new TypeToken<DeviceConfig<CameraConfig>>() {
+    }.getType()),
+    //Get Camera extend parameters
+    CAMERAPARAMEX("Camera.ParamEx", new TypeToken<DeviceConfig<CameraParamExConfig>>() {
     }.getType()),
     //HumanDetection
     DETECTHUMANDETECTION("Detect.HumanDetection", new TypeToken<DeviceConfig<DetectHumanDetectionConfig>>() {
@@ -190,12 +193,18 @@ public enum JLinkDeviceConfigTypeEnum {
     //Nat Configuration
     NETWORKNAT("NetWork.Nat", new TypeToken<DeviceConfig<NetWorkNATConfig>>() {
     }.getType()),
+    NETWORKIPADAPTIVE("NetWork.IPAdaptive", new TypeToken<DeviceConfig<NetWorkIpAdaptiveConfig>>() {
+    }.getType()),
     //digital channel alarmInput Configuration
     ALARMIPCALARM("Alarm.IPCAlarm", new TypeToken<DeviceConfig<Object>>() {
     }.getType()),
     //Wifi Configuration
     //"Auth"、"EncrypType"、"SSID"、"KeyType"和"NetType"
     NETWORKWIFI("NetWork.Wifi", new TypeToken<DeviceConfig<NetWorkWifiConfig>>() {
+    }.getType()),
+    NETWORKONVIFPWDCHECKOUT("NetWork.OnvifPwdCheckout", new TypeToken<DeviceConfig<NetworkOnvifPwdCheckoutConfig>>() {
+    }.getType()),
+    OEMCFGCORRESPONDENT("OEMcfg.Correspondent", new TypeToken<DeviceConfig<OEMcfgCorrespondentConfig>>() {
     }.getType()),
     //GUI Configuration
     FVIDEOGUISET("fVideo.GUISet", new TypeToken<DeviceConfig<FVideoGUISetConfig>>() {
@@ -213,7 +222,7 @@ public enum JLinkDeviceConfigTypeEnum {
     STORAGESTORAGELOWSPACE("Storage.StorageLowSpace", new TypeToken<DeviceConfig<Object>>() {
     }.getType()),
     //storageDeviceAccessFailure Configuration
-    STORAGESTORAGEFAILURE("Storage.StorageFailure", new TypeToken<DeviceConfig<Object>>() {
+    STORAGESTORAGEFAILURE("Storage.StorageFailure", new TypeToken<DeviceConfig<StorageStorageFailureConfig>>() {
     }.getType()),
     //common Configuration
     GENERALGENERAL("General.General", new TypeToken<DeviceConfig<GeneralConfig>>() {
@@ -222,7 +231,7 @@ public enum JLinkDeviceConfigTypeEnum {
     GENERALLOCATION("General.Location", new TypeToken<DeviceConfig<GeneralLocationConfig>>() {
     }.getType()),
     //automatic Maintenance Configuration
-    GENERALAUTOMAINTAIN("General.AutoMaintain", new TypeToken<DeviceConfig<Object>>() {
+    GENERALAUTOMAINTAIN("General.AutoMaintain", new TypeToken<DeviceConfig<GeneralAutoMaintainConfig>>() {
     }.getType()),
     //userRights ConfigurationInformation
     USERS("Users", new TypeToken<DeviceConfig<Object>>() {
@@ -234,8 +243,27 @@ public enum JLinkDeviceConfigTypeEnum {
     SIMPLIFYENCODE("Simplify.Encode", new TypeToken<DeviceConfig<SimplifyEncodeConfig>>() {
     }.getType()),
     //user Configuration
-    SYSTEMEXUSERMAP("System.ExUserMap", new TypeToken<DeviceConfig<Object>>() {
-    }.getType());
+    SYSTEMEXUSERMAP("System.ExUserMap", new TypeToken<DeviceConfig<SystemExUserMapConfig>>() {
+    }.getType()),
+    SystemTimeZone("System.TimeZone", new TypeToken<DeviceConfig<SystemTimeZoneConfig>>() {
+    }.getType()),
+    NetPubCfgDomain("NetWork.NetPubCfgDomain", new TypeToken<DeviceConfig<Object>>() {
+    }.getType()),
+    NetCapsDomain("NetWork.NetCapsDomain", new TypeToken<DeviceConfig<Object>>() {
+    }.getType()),
+    OnlineUpgrade("NetWork.OnlineUpgrade", new TypeToken<DeviceConfig<Object>>() {
+    }.getType()),
+    StatusNatInfo("Status.NatInfo", new TypeToken<DeviceConfig<StatusNatInfoConfig>>() {
+    }.getType()),
+    AlarmPIR("Alarm.PIR", new TypeToken<DeviceConfig<AlarmPIRConfig>>() {
+    }.getType()),
+    NetWorkSetEnableVideo("NetWork.SetEnableVideo", new TypeToken<DeviceConfig<NetWorkSetEnableVideoConfig>>() {
+    }.getType()),
+    CATALOG("Catalog", new TypeToken<DeviceConfig<CatalogConfig>>() {
+    }.getType())
+//    NetUseDigitalEncode("NetUse.DigitalEncode.[0]", new TypeToken<DeviceConfig<Object>>() {
+//    }.getType()),
+    ;
 
     /**
      * name Of Configuration

@@ -14,6 +14,8 @@ public class OPSystemTimeZoneResponse extends DeviceOperateResponse {
     private Integer ret;
     @SerializedName("SessionID")
     private String sessionID;
+    @SerializedName("SystemTimeZoneDTO")
+    private OPSystemTimeZoneDTO.SystemTimeZoneDTO systemTimeZoneDTO;
 
     public String getName() {
         return name;

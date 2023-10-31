@@ -34,6 +34,9 @@ public class JLinkHttpUtil {
 
     public static String httpsRequest(String requestUrl, String requestMethod, Map<String, String> requestHeader,
                                       String bodyParam) {
+        if (!requestUrl.startsWith("https://")) {
+            return httpRequest(requestUrl, requestMethod, requestHeader, bodyParam);
+        }
         JLinkLog.i("httpsRequest url:<--" + requestUrl);
         try {
             bodyParam = URLDecoder.decode(bodyParam, "utf-8");
@@ -43,6 +46,7 @@ public class JLinkHttpUtil {
         JLinkLog.i("httpsRequest body:<--" + bodyParam);
         HttpsURLConnection conn = null;
         try {
+
             StringBuffer buffer = null;
             // create SSLContext
             SSLContext sslContext = SSLContext.getInstance("SSL");
@@ -54,9 +58,9 @@ public class JLinkHttpUtil {
             ;
             //toObtain SSLSocketFactory object
             SSLSocketFactory ssf = sslContext.getSocketFactory();
-
             URL url = new URL(requestUrl);
             conn = (HttpsURLConnection) url.openConnection();
+            conn.setSSLSocketFactory(ssf);
             conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setUseCaches(false);
@@ -70,7 +74,6 @@ public class JLinkHttpUtil {
                     conn.setRequestProperty(key, requestHeader.get(key));
                 }
             }
-            conn.setSSLSocketFactory(ssf);
             conn.connect();
             if (null != bodyParam) {
                 OutputStream os = conn.getOutputStream();
@@ -103,7 +106,76 @@ public class JLinkHttpUtil {
             JLinkLog.i("httpsRequest response:-->" + res);
             return res;
         } catch (Exception e) {
+            e.printStackTrace();
             JLinkLog.e("httpsRequest failed:" + e.getMessage());
+            if (null != conn) {
+                conn.disconnect();
+            }
+            throw new JLinkHttpException(JLinkResponseCode.RESTFUL_HTTP_ERROR.getCode(), e.getMessage());
+        }
+    }
+
+    private static String httpRequest(String requestUrl, String requestMethod, Map<String, String> requestHeader, String bodyParam) {
+        JLinkLog.i("httpRequest url:<--" + requestUrl);
+        try {
+            bodyParam = URLDecoder.decode(bodyParam, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        JLinkLog.i("httpRequest body:<--" + bodyParam);
+        HttpURLConnection conn = null;
+        try {
+
+            URL url = new URL(requestUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            StringBuffer buffer = null;
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod(requestMethod);
+            if ("POST".equalsIgnoreCase(requestMethod)) {
+                conn.addRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            }
+            if (null != requestHeader && requestHeader.size() > 0) {
+                Set<String> keys = requestHeader.keySet();
+                for (String key : keys) {
+                    conn.setRequestProperty(key, requestHeader.get(key));
+                }
+            }
+            conn.connect();
+            if (null != bodyParam) {
+                OutputStream os = conn.getOutputStream();
+                os.write(bodyParam.getBytes("utf-8"));
+                os.close();
+            }
+            InputStream is = null;
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK
+                    || conn.getResponseCode() == HttpURLConnection.HTTP_CREATED
+                    || conn.getResponseCode() == HttpURLConnection.HTTP_ACCEPTED) {
+                is = conn.getInputStream();
+            } else {
+                is = conn.getErrorStream();
+            }
+            InputStreamReader isr = new InputStreamReader(is, "utf-8");
+            BufferedReader br = new BufferedReader(isr);
+            buffer = new StringBuffer();
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                buffer.append(line);
+                buffer.append("\n");
+            }
+
+            br.close();
+            isr.close();
+            is.close();
+            conn.disconnect();
+
+            String res = buffer.toString();
+            JLinkLog.i("httpRequest response:-->" + res);
+            return res;
+        } catch (Exception e) {
+            e.printStackTrace();
+            JLinkLog.e("httpRequest failed:" + e.getMessage());
             if (null != conn) {
                 conn.disconnect();
             }

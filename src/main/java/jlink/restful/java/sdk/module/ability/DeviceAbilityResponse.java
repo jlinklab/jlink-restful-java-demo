@@ -80,6 +80,20 @@ public class DeviceAbilityResponse {
         @SerializedName("Intelligent")
         private IntelligentDTO intelligent;
 
+        /**
+         * MultiVstd
+         */
+        @SerializedName("MultiVstd")
+        private String multiVstd;
+
+        public String getMultiVstd() {
+            return multiVstd;
+        }
+
+        public void setMultiVstd(String multiVstd) {
+            this.multiVstd = multiVstd;
+        }
+
         public static class SystemFunctionDTO {
             /**
              * system capability set->AlarmFunction

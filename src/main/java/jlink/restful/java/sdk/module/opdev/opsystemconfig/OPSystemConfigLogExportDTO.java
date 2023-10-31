@@ -13,7 +13,7 @@ import jlink.restful.java.sdk.module.opdev.DeviceOperateEnum;
 public class OPSystemConfigLogExportDTO implements DeviceOperate {
     @Override
     public DeviceOperateEnum getOperateEnum() {
-        return null;
+        return DeviceOperateEnum.OPSystemConfig;
     }
     @SerializedName("Name")
     private final DeviceOperateEnum name = getOperateEnum();

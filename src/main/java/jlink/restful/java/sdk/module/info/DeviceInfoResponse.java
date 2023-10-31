@@ -2,6 +2,9 @@ package jlink.restful.java.sdk.module.info;
 
 import com.google.gson.annotations.SerializedName;
 import jlink.restful.java.sdk.competent.JLinkResponseCode;
+import jlink.restful.java.sdk.module.opdev.opdiskmanager.OPStorageInfoResponse;
+
+import java.util.List;
 
 public class DeviceInfoResponse {
     private Integer code;
@@ -23,6 +26,23 @@ public class DeviceInfoResponse {
         private String sessionID;
         @SerializedName("SystemInfo")
         private SystemInfoDTO systemInfo;
+
+        @SerializedName("SystemInfoEx")
+        private SystemInfoExDTO systemInfoEx;
+        
+        @SerializedName("StorageInfo")
+        private List<OPStorageInfoResponse.StorageInfoDTO> storageInfo;
+        
+        @SerializedName("WifiRouteInfo")
+        private WifiRouteInfo wifiRouteInfo;
+        
+        public List<OPStorageInfoResponse.StorageInfoDTO> getStorageInfo() {
+            return storageInfo;
+        }
+
+        public void setStorageInfo(List<OPStorageInfoResponse.StorageInfoDTO> storageInfo) {
+            this.storageInfo = storageInfo;
+        }
 
         public String getName() {
             return name;
@@ -54,6 +74,22 @@ public class DeviceInfoResponse {
 
         public void setSystemInfo(SystemInfoDTO systemInfo) {
             this.systemInfo = systemInfo;
+        }
+
+        public SystemInfoExDTO getSystemInfoEx() {
+            return systemInfoEx;
+        }
+
+        public void setSystemInfoEx(SystemInfoExDTO systemInfoEx) {
+            this.systemInfoEx = systemInfoEx;
+        }
+
+        public WifiRouteInfo getWifiRouteInfo() {
+            return wifiRouteInfo;
+        }
+
+        public void setWifiRouteInfo(WifiRouteInfo wifiRouteInfo) {
+            this.wifiRouteInfo = wifiRouteInfo;
         }
 
         public static class SystemInfoDTO {
@@ -256,6 +292,65 @@ public class DeviceInfoResponse {
 
             public void setVideoOutChannel(Integer videoOutChannel) {
                 this.videoOutChannel = videoOutChannel;
+            }
+        }
+        
+        public static class SystemInfoExDTO {
+            @SerializedName("McuVersion")
+            private String mcuVersion;
+
+            public String getMcuVersion() {
+                return mcuVersion;
+            }
+
+            public void setMcuVersion(String mcuVersion) {
+                this.mcuVersion = mcuVersion;
+            }
+        }
+        
+        public static class WifiRouteInfo {
+            @SerializedName("Eth0Status")
+            public boolean eth0Status;
+            
+            @SerializedName("SignalLevel")
+            private Integer signalLevel;
+            
+            @SerializedName("WlanMac")
+            private String wlanMac;
+            
+            @SerializedName("WlanStatus")
+            private boolean wlanStatus;
+
+            public boolean isEth0Status() {
+                return eth0Status;
+            }
+
+            public void setEth0Status(boolean eth0Status) {
+                this.eth0Status = eth0Status;
+            }
+
+            public Integer getSignalLevel() {
+                return signalLevel;
+            }
+
+            public void setSignalLevel(Integer signalLevel) {
+                this.signalLevel = signalLevel;
+            }
+
+            public String getWlanMac() {
+                return wlanMac;
+            }
+
+            public void setWlanMac(String wlanMac) {
+                this.wlanMac = wlanMac;
+            }
+
+            public boolean isWlanStatus() {
+                return wlanStatus;
+            }
+
+            public void setWlanStatus(boolean wlanStatus) {
+                this.wlanStatus = wlanStatus;
             }
         }
     }

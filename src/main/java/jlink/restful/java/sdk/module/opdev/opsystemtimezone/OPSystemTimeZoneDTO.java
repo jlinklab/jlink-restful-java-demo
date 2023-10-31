@@ -26,11 +26,35 @@ public class OPSystemTimeZoneDTO implements DeviceOperate {
         return name;
     }
 
+    public SystemTimeZoneDTO getOpTimeSetting() {
+        return opTimeSetting;
+    }
 
-    private class SystemTimeZoneDTO {
+    public void setOpTimeSetting(SystemTimeZoneDTO opTimeSetting) {
+        this.opTimeSetting = opTimeSetting;
+    }
+
+
+    public class SystemTimeZoneDTO {
         @SerializedName("FirstUserTimeZone")
         private Integer FirstUserTimeZone;
         @SerializedName("timeMin")
         private Integer timeMin;
+
+        public Integer getFirstUserTimeZone() {
+            return FirstUserTimeZone;
+        }
+
+        public void setFirstUserTimeZone(Integer firstUserTimeZone) {
+            FirstUserTimeZone = firstUserTimeZone;
+        }
+
+        public Integer getTimeMin() {
+            return timeMin;
+        }
+
+        public void setTimeMin(Integer timeMin) {
+            this.timeMin = timeMin;
+        }
     }
 }

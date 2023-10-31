@@ -34,6 +34,8 @@ public class PtzFocusIrisControlDTO implements DeviceOperate {
              */
             @SerializedName("Channel")
             private int channel = 0;
+            @SerializedName("Step")
+            private int step = 1;
 
             public int getChannel() {
                 return channel;
@@ -41,6 +43,14 @@ public class PtzFocusIrisControlDTO implements DeviceOperate {
 
             public void setChannel(int channel) {
                 this.channel = channel;
+            }
+
+            public int getStep() {
+                return step;
+            }
+
+            public void setStep(int step) {
+                this.step = step;
             }
         }
 

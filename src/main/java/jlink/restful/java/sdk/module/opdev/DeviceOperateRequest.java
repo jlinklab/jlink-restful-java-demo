@@ -1,6 +1,7 @@
 package jlink.restful.java.sdk.module.opdev;
 
 import com.google.gson.Gson;
+import jlink.restful.java.sdk.JLinkClient;
 import jlink.restful.java.sdk.competent.JLinkDeviceRequestUrl;
 import jlink.restful.java.sdk.competent.JLinkDomain;
 import jlink.restful.java.sdk.competent.JLinkMethodType;
@@ -8,6 +9,9 @@ import jlink.restful.java.sdk.competent.JLinkResponseCode;
 import jlink.restful.java.sdk.exception.JLinkDeviceOperateException;
 import jlink.restful.java.sdk.exception.JLinkJsonException;
 import jlink.restful.java.sdk.util.JLinkHttpUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * DeviceOperate Request
@@ -22,15 +26,21 @@ public class DeviceOperateRequest {
      *
      * @param operate
      * @param devToken
+     * @param mJLinkClient
      * @return boolean
      */
-    public static DeviceOperateResponse operate(DeviceOperate operate, String devToken) {
+    public static DeviceOperateResponse operate(DeviceOperate operate, String devToken, JLinkClient jClient) {
+
+        Map<String, String> header = new HashMap<>();
+        header.put("appKey", jClient.getAppKey());
+        header.put("uuid", jClient.getUuid());
+
         //Define the return bean to get the device capability set
         DeviceOperateResponse response;
         //Assemble the request address for obtaining the device capability set
         String requestDeviceOperateUrl = String.format("%s/%s/%s", JLinkDomain.RESTFUL_DOMAIN.get(), JLinkDeviceRequestUrl.DEVICE_OPDEV.get(), devToken);
         //send https request
-        String res = JLinkHttpUtil.httpsRequest(requestDeviceOperateUrl, JLinkMethodType.POST.get(), null, new Gson().toJson(operate));
+        String res = JLinkHttpUtil.httpsRequest(requestDeviceOperateUrl, JLinkMethodType.POST.get(), header, new Gson().toJson(operate));
         try {
             res = formatRes(res);
             response = new Gson().fromJson(res, operate.getOperateEnum().getType());
