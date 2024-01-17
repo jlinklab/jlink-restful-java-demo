@@ -417,6 +417,50 @@ public class JLinkDevice {
         return new DevicePlaybackRequest().devicePlayback(mDeviceUser, mDevicePass, channel, stream, startTime, endTime, fileName, jUser.getUserToken(), getDeviceToken());
     }
 
+    /**
+     * Device playback timeline (SD Card)
+     *
+     * @param sn
+     * @param beginTime
+     * @param endTime
+     * @return {@link String}
+     */
+    /**
+     * Device playback timeline (SD Card)
+     *
+     * @param sn
+     * @param beginTime
+     * @param endTime
+     * @return {@link String}
+     */
+    public String playbackTimelineList(String sn, String beginTime, String endTime) {
+        return new DevicePlaybackRequest().playbackTimelineListImpl(sn, beginTime, endTime, null, 1, null, 0, null, null, getDeviceToken());
+    }
+
+    public String playbackTimelineList(String sn, String beginTime, String endTime, String event) {
+        return new DevicePlaybackRequest().playbackTimelineListImpl(sn, beginTime, endTime, event, 1, null, 0, null, null, getDeviceToken());
+    }
+
+    public String playbackTimelineList(String sn, String beginTime, String endTime, String event, int lowChannel, String lowStreamType) {
+        return new DevicePlaybackRequest().playbackTimelineListImpl(sn, beginTime, endTime, event, lowChannel, lowStreamType, 0, null, null, getDeviceToken());
+    }
+
+    public String playbackTimelineList(String sn, String beginTime, String endTime, String event, int lowChannel, String lowStreamType, int highChannel, String highStreamType) {
+        return new DevicePlaybackRequest().playbackTimelineListImpl(sn, beginTime, endTime, event, lowChannel, lowStreamType, highChannel, highStreamType, null, getDeviceToken());
+    }
+
+    public String playbackTimelineList(String sn, String beginTime, String endTime, String event, int lowChannel, String lowStreamType, int highChannel, String highStreamType, String type) {
+        return new DevicePlaybackRequest().playbackTimelineListImpl(sn, beginTime, endTime, event, lowChannel, lowStreamType, highChannel, highStreamType, type, getDeviceToken());
+    }
+
+    /**
+     * Alarm List
+     *
+     * @param sn
+     * @param startTime
+     * @param endTime
+     * @return {@link DeviceAlarmListResponse}
+     */
     public DeviceAlarmListResponse getAlarmList(String sn, String startTime, String endTime) {
         return new DeviceAlarmListRequest().getDeviceAlarmList(sn, startTime, endTime, getDeviceToken());
     }

@@ -7,7 +7,7 @@ public enum JLinkDomain {
     //RESTFul API Request DomainName
     RESTFUL_DOMAIN("https://rds.jftechws.com"),
     //userToken and deviceToken Request DomainName
-    TKS_DOMAIN("https://tks.jftechws.com"),
+    TKS_DOMAIN("https://rs.jftechws.com"),
     RS_DOMAIN("https://rs.jftechws.com/login/va1");
 
 

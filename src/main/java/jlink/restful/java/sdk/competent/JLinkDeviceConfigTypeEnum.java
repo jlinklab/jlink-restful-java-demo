@@ -261,6 +261,7 @@ public enum JLinkDeviceConfigTypeEnum {
     }.getType()),
     CATALOG("Catalog", new TypeToken<DeviceConfig<CatalogConfig>>() {
     }.getType())
+
 //    NetUseDigitalEncode("NetUse.DigitalEncode.[0]", new TypeToken<DeviceConfig<Object>>() {
 //    }.getType()),
     ;

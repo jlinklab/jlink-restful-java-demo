@@ -95,7 +95,9 @@ public enum JLinkDeviceRequestUrl {
     /**
      * customConfiguration
      */
-    TAILORED_CONFIG("v2/rtc/device/getTailoredConfig");
+    TAILORED_CONFIG("v2/rtc/device/getTailoredConfig"),
+
+    PLAYBACK_TIMELINELIST("v2/rtc/device/playbackTimelineList");
 
 
     private String requestUrl;

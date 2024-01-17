@@ -9,6 +9,8 @@ package jlink.restful.java.sdk.module.livestream;
 public enum DeviceLiveStreamEnum {
     MEDIATYPE_HLS("hls"),
     MEDIATYPE_RTSP("rtsp"),
+    MEDIATYPE_RTSP_PRI("rtsp-pri"),
+    MEDIATYPE_FLV("flv"),
     STREAM_MAIN("0"),
     STREAM_EXTRA("1"),
     PROTOCOL_TS("ts"),
